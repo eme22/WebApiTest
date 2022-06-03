@@ -1,4 +1,8 @@
 import {User} from './user'
-import {Post} from './post'
-import {Comment} from './comment'
-export {User, Post, Comment}
+import {Category} from './category'
+import {Promo} from './promo'
+import {Item} from './item'
+import {Cart} from './cart'
+import {CartItems} from './cartItems'
+
+export {User, Category, Cart, CartItems , Promo, Item}

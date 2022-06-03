@@ -1,6 +1,4 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany, UpdateDateColumn} from "typeorm";
-import { Post } from "./post";
-import {Comment} from './comment';
 
 @Entity()
 export class User {
@@ -17,15 +15,25 @@ export class User {
     @Column()
     email!: string;
 
-    @OneToMany(_type => Post, (post: Post) => post.user)
-    posts!: Array<Post>
+    @Column()
+    passwordHash!: string;
 
-    @OneToMany(_type=> Comment, (comment: Comment) => comment.user)
-    comments!: Array<Comment>;
+    @Column()
+    address!: string;
+
+    @Column()
+    phone!: number;
+
+    @Column({
+        type: 'boolean',
+        default: false
+    })
+    admin!: boolean;
+
+    @Column( {nullable: true} )
+    image!: string;
     
     @CreateDateColumn()
     createdAt!: Date;
 
-    @UpdateDateColumn()
-    updatedAt!: Date;
 }
