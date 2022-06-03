@@ -50,6 +50,9 @@
     "tsoa": "^3.2.1",
     "typeorm": "^0.2.44"
   },
+  "resolutions": {
+    "@types/serve-static": "1.13.9"
+  },
   "nodemonConfig": {
     "watch": [
       "src"
