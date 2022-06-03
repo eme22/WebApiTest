@@ -43,7 +43,7 @@ router.delete("/id/:id", async (req, res) => {
 router.get("/count", async (_req, res) => {
   const controller = new UserController();
   const response = await controller.count();
-  return res.send(response);
+  return res.send({count: response});
 });
 
 router.post("/login", async (req, res) => {
@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
 router.get("/exist/:email", async (req, res) => {
   const controller = new UserController();
   const response = await controller.exist(req.params.email);
-  return res.send(response);
+  return res.send({exist: response});
 });
 
 export default router
