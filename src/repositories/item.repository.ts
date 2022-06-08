@@ -1,5 +1,5 @@
-import {Double, getRepository} from "typeorm";
-import {Category, Item, Promo} from '../models'
+import {getRepository} from "typeorm";
+import {Item} from '../models'
 
 import fs from 'fs';
 
