@@ -4,7 +4,7 @@ import FileMiddleware from '../middleware/upload.middleware';
 
 const router = express.Router();
 
-router.get("/", async (_req, res) => {
+router.get("/all/", async (_req, res) => {
   const controller = new ItemController();
   const response = await controller.getItems();
   return res.send(response);
@@ -26,17 +26,23 @@ router.post("/", FileMiddleware.memoryLoader.single('data'), async (req, res) =>
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/id/:id", async (req, res) => {
   const controller = new ItemController();
   const response = await controller.getItem(req.params.id);
   if (!response) return res.status(404).send({message: "No item found"})
   return res.send(response);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/id/:id", async (req, res) => {
   const controller = new ItemController();
   const response = await controller.getItem(req.params.id);
   if (!response) return res.status(404).send({message: "No item found"})
+  return res.send(response);
+});
+
+router.get("/category/:categoryId", async (req, res) => {
+  const controller = new ItemController();
+  const response = await controller.getItemByCategory(req.params.categoryId);
   return res.send(response);
 });
 

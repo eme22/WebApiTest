@@ -51,3 +51,9 @@ export const deleteItem  = async (item: number | Item) :Promise<Boolean> => {
   if (!item2) return false;
   return item2.affected != 0;
 }
+
+export const getItemsByCategory  = async (categoryId: number) :Promise<Array<Item>> => {
+  const itemRepository = getRepository(Item);
+  const item = await itemRepository.find({categoryId})
+  return item
+}
