@@ -1,5 +1,5 @@
 import { Category, Item } from "../models";
-import { getRepository, Like } from "typeorm";
+import { getRepository, ILike } from "typeorm";
 
 export class ISearchResult {
     name!: string;
@@ -21,9 +21,9 @@ export class ISearchResult {
     const itemRepository = getRepository(Item);
     const categoryRepository = getRepository(Category);
 
-    var items = await itemRepository.find({ where: { name: Like(`%${query}%`)}});
+    var items = await itemRepository.find({ where: { name: ILike(`%${query}%`)}});
 
-    var categories = await categoryRepository.find({ where: { name: Like(`%${query}%`)} });
+    var categories = await categoryRepository.find({ where: { name: ILike(`%${query}%`)} });
 
     let result: Array<ISearchResult> = new Array();
 
