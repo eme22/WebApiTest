@@ -22,9 +22,9 @@ export class ISearchResult {
     const itemRepository = getRepository(Item);
     const categoryRepository = getRepository(Category);
 
-    var items = await itemRepository.find({ where: { name: query} });
+    var items = await itemRepository.find({ where: { name: `%${query}%`}});
 
-    var categories = await categoryRepository.find({ where: { name: query} });
+    var categories = await categoryRepository.find({ where: { name: `%${query}%`} });
 
     let result: Array<ISearchResult> = new Array();
 
