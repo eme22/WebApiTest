@@ -34,9 +34,9 @@ router.get("/id/:id", async (req, res) => {
 
 router.delete("/id/:id", async (req, res) => {
   const controller = new CartController();
-  const response = await controller.getCart(req.params.id);
+  const response = await controller.deleteCart(req.params.id);
   if (!response) return res.status(404).send({message: "No cart found"})
-  return res.send(response);
+  return res.send({message: response});
 });
 
 router.get("/current/:id", async (req, res) => {

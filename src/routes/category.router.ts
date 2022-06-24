@@ -35,9 +35,9 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const controller = new CategoryController();
-  const response = await controller.getCategory(req.params.id);
+  const response = await controller.deleteCategory(req.params.id);
   if (!response) return res.status(404).send({message: "No category found"})
-  return res.send(response);
+  return res.send({message: response});
 });
 
 export default router

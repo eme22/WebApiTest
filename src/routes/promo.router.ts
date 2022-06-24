@@ -35,9 +35,9 @@ router.get("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const controller = new PromoController();
-  const response = await controller.getPromo(req.params.id);
+  const response = await controller.deletePromo(req.params.id);
   if (!response) res.status(404).send({message: "No promo found"})
-  return res.send(response);
+  return res.send({message: response});
 });
 
 export default router

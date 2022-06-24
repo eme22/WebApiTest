@@ -35,9 +35,9 @@ router.get("/id/:id", async (req, res) => {
 
 router.delete("/id/:id", async (req, res) => {
   const controller = new ItemController();
-  const response = await controller.getItem(req.params.id);
+  const response = await controller.deleteItem(req.params.id);
   if (!response) return res.status(404).send({message: "No item found"})
-  return res.send(response);
+  return res.send({message: response});
 });
 
 router.get("/category/:categoryId", async (req, res) => {

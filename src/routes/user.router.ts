@@ -35,9 +35,9 @@ router.get("/id/:id", async (req, res) => {
 
 router.delete("/id/:id", async (req, res) => {
   const controller = new UserController();
-  const response = await controller.getUser(req.params.id);
+  const response = await controller.deleteUser(req.params.id);
   if (!response) return res.status(404).send({message: "No user found"})
-  return res.send(response);
+  return res.send({message: response});
 });
 
 router.get("/count", async (_req, res) => {

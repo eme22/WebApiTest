@@ -406,6 +406,31 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"ISearchResult": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"category": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"image": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"category",
+					"id",
+					"image"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"ICategoryPayload": {
 				"properties": {
 					"name": {
@@ -818,7 +843,7 @@
 				]
 			}
 		},
-		"/items": {
+		"/items/all": {
 			"get": {
 				"operationId": "GetItems",
 				"responses": {
@@ -841,7 +866,9 @@
 				],
 				"security": [],
 				"parameters": []
-			},
+			}
+		},
+		"/items": {
 			"post": {
 				"operationId": "CreateItem",
 				"responses": {
@@ -873,7 +900,7 @@
 				}
 			}
 		},
-		"/items/{id}": {
+		"/items/id/{id}": {
 			"get": {
 				"operationId": "GetItem",
 				"responses": {
@@ -935,6 +962,40 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/items/category/{categoryId}": {
+			"get": {
+				"operationId": "GetItemByCategory",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Item"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Item"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "categoryId",
 						"required": true,
 						"schema": {
 							"type": "string"
@@ -1060,6 +1121,41 @@
 					{
 						"in": "path",
 						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/search/{query}": {
+			"get": {
+				"operationId": "Search",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ISearchResult"
+									},
+									"type": "array",
+									"nullable": true
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Search"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "query",
 						"required": true,
 						"schema": {
 							"type": "string"
