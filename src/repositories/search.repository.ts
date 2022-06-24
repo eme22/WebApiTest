@@ -1,6 +1,5 @@
 import { Category, Item } from "../models";
-import { getRepository } from "typeorm";
-import { Like } from "typeorm"
+import { getRepository, Like } from "typeorm";
 
 export class ISearchResult {
     name!: string;
