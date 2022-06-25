@@ -1,6 +1,6 @@
-import { Get, Route, Tags,  Post, Body, Path, Delete, Inject } from "tsoa";
+import { Get, Route, Tags,  Post, Body, Path, Delete, Inject, Patch } from "tsoa";
 import {User} from '../models'
-import {getUsers, createUser, IUserPayload, getUser, deleteUser, userCount, userExist, userExist2} from '../repositories/user.repository'
+import {getUsers, createUser, updateUser, IUserPayload, getUser, deleteUser, userCount, userExist, userExist2} from '../repositories/user.repository'
 
 @Route("users")
 @Tags("User")
@@ -13,6 +13,11 @@ export default class UserController {
   @Post("/")
   public async createUser(@Body() body: IUserPayload,  @Inject() buffer: Buffer | undefined, @Inject() fileExtension: string): Promise<User> {
     return createUser(body, buffer, fileExtension)
+  }
+
+  @Patch("/")
+  public async updateUser(@Body() body: IUserPayload,  @Inject() buffer: Buffer | undefined, @Inject() fileExtension: string): Promise<Boolean> {
+    return updateUser(body, buffer, fileExtension)
   }
 
   @Get("/id/:id")

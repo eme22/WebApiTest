@@ -10,6 +10,18 @@ router.get("/all/", async (_req, res) => {
   return res.send(response);
 });
 
+router.patch("/",FileMiddleware.memoryLoader.single('data'), async (req, res) => {
+  const file = req.file
+  const controller = new UserController();
+  var response;
+  if (file == undefined) 
+    response = await controller.updateUser(req.body, undefined, "");
+  else
+    response = await controller.updateUser(req.body, file.buffer, file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length));
+  
+  return res.send({updated: response});
+});
+
 router.post("/"
 ,FileMiddleware.memoryLoader.single('data'), async (req, res) => {
 
@@ -23,8 +35,7 @@ router.post("/"
     response = await controller.createUser(req.body, file.buffer, file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length));
   return res.send(response);
 
-  }
-);
+});
 
 router.get("/id/:id", async (req, res) => {
   const controller = new UserController();

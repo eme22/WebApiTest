@@ -36,9 +36,25 @@ export const createUser  = async (payload: IUserPayload, buffer: Buffer | undefi
     await userRepository.update(user.id, user)
   }
 
-  
-
   return user
+
+}
+
+export const updateUser  = async (payload: IUserPayload, buffer: Buffer | undefined, extension: string) :Promise<Boolean> => {
+  const userRepository = getRepository(User);
+  var user = new User();
+
+  let update = await (await userRepository.update(user, payload)).affected != 0;
+
+
+  if (update && buffer !== undefined) {
+    const image = "/img/user/"+user.id+extension;
+    fs.writeFileSync("./public"+ image, buffer);
+    user.image = image;
+    await userRepository.update(user.id, user)
+  }
+
+  return update
 
 }
 
