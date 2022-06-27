@@ -1,4 +1,4 @@
-import { Get, Route, Tags,  Post, Body, Path, Delete, Inject } from "tsoa";
+import { Get, Route, Tags,  Post, Body, Path, Delete, Inject, Patch } from "tsoa";
 import {Category} from '../models'
 import {getCategorys, createCategory, ICategoryPayload, getCategory, deleteCategory, updateCategory} from '../repositories/category.repository'
 
