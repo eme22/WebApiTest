@@ -2,6 +2,7 @@ import {getRepository} from "typeorm";
 import {User} from '../models'
 
 import fs from 'fs';
+import { address } from "faker";
 
 export interface IUserPayload {
   firstName: string;
@@ -47,14 +48,20 @@ export const updateUser  = async (payload: IUserPayload, buffer: Buffer | undefi
   if (user == null)
     return false;
 
-  let update = (await userRepository.update({id: user.id}, payload)).affected != 0;
+  let update = (await userRepository.update({id: user.id}, {
+    firstName: payload.firstName,
+    lastName: payload.lastName,
+    email: payload.email,
+    passwordHash: payload.passwordHash,
+    phone: payload.phone,
+    address: payload.address
+  })).affected != 0;
 
 
   if (update && buffer !== undefined) {
     const image = "/img/user/"+user.id+extension;
     fs.writeFileSync("./public"+ image, buffer);
-    user.image = image;
-    await userRepository.update(user.id, user)
+    await userRepository.update(user.id, {image})
   }
 
   return update
