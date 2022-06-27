@@ -4,6 +4,7 @@ import {Item} from '../models'
 import fs from 'fs';
 
 export interface IItemPayload {
+  id: number;
   name: string;
   description: string;
   categoryId: number;
@@ -15,6 +16,23 @@ export interface IItemPayload {
 export const getItems  = async () :Promise<Array<Item>> => {
   const itemRepository = getRepository(Item);
   return itemRepository.find()
+}
+
+export const updateItem  = async (payload: IItemPayload, buffer: Buffer, extension: string) :Promise<Boolean> => {
+  const itemRepository = getRepository(Item);
+
+  var item = await itemRepository.update({id: payload.id} ,payload);
+
+  if (item == null) return false;
+
+  const image = "/img/item/"+payload.id+extension;
+
+  fs.writeFileSync("./public"+ image, buffer);
+
+  await itemRepository.update(payload.id, {image})
+
+  return item.affected != 0;
+
 }
 
 export const createItem  = async (payload: IItemPayload, buffer: Buffer, extension: string) :Promise<Item> => {

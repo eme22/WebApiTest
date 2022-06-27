@@ -42,9 +42,12 @@ export const createUser  = async (payload: IUserPayload, buffer: Buffer | undefi
 
 export const updateUser  = async (payload: IUserPayload, buffer: Buffer | undefined, extension: string) :Promise<Boolean> => {
   const userRepository = getRepository(User);
-  var user = new User();
+  var user = await userRepository.findOne( {email: payload.email});
 
-  let update = await (await userRepository.update(user, payload)).affected != 0;
+  if (user == null)
+    return false;
+
+  let update = (await userRepository.update({id: user.id}, payload)).affected != 0;
 
 
   if (update && buffer !== undefined) {
