@@ -37,12 +37,7 @@ export const updateItem  = async (payload: IItemPayload, buffer: Buffer, extensi
 
 export const createItem  = async (payload: IItemPayload, buffer: Buffer, extension: string) :Promise<Item> => {
   const itemRepository = getRepository(Item);
-  var item = new Item()
-
-  item = await itemRepository.save({
-    ...item,
-    ...payload
-  })
+  var item = await itemRepository.save(payload)
 
   const image = "/img/item/"+item.id+extension;
 
@@ -50,7 +45,7 @@ export const createItem  = async (payload: IItemPayload, buffer: Buffer, extensi
 
   item.image = image;
 
-  await itemRepository.update(item.id, item)
+  await itemRepository.update(item.id, {image})
 
   return item
 
