@@ -21,7 +21,13 @@ export const getItems  = async () :Promise<Array<Item>> => {
 export const updateItem  = async (payload: IItemPayload, buffer: Buffer, extension: string) :Promise<Boolean> => {
   const itemRepository = getRepository(Item);
 
-  var item = await itemRepository.update({id: payload.id} ,payload);
+  var item = await itemRepository.update({id: payload.id} , {
+    name: payload.name,
+    description: payload.description,
+    categoryId: payload.categoryId,
+    price: payload.price,
+    promoId: payload.promoId
+  });
 
   if (item == null) return false;
 

@@ -1,6 +1,6 @@
-import { Get, Route, Tags,  Post, Body, Path, Delete, Inject } from "tsoa";
+import { Get, Route, Tags,  Post, Body, Path, Delete, Inject, Patch } from "tsoa";
 import {Promo} from '../models'
-import {getPromos, createPromo, IPromoPayload, getPromo, deletePromo} from '../repositories/promo.repository'
+import {getPromos, createPromo, IPromoPayload, getPromo, deletePromo, updatePromo} from '../repositories/promo.repository'
 
 @Route("promos")
 @Tags("Promo")
@@ -13,6 +13,11 @@ export default class PromoController {
   @Post("/")
   public async createPromo(@Body() body: IPromoPayload, @Inject() buffer: Buffer, @Inject() fileExtension: string): Promise<Promo> {
     return createPromo(body, buffer, fileExtension)
+  }
+
+  @Patch("/")
+  public async updatePromo(@Body() body: IPromoPayload,  @Inject() buffer: Buffer, @Inject() fileExtension: string): Promise<Boolean> {
+    return updatePromo(body, buffer, fileExtension)
   }
 
   @Get("/:id")

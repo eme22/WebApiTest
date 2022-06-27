@@ -1,6 +1,6 @@
-import { Get, Route, Tags,  Post, Body, Path, Delete, Inject } from "tsoa";
+import { Get, Route, Tags,  Post, Body, Path, Delete, Inject, Patch } from "tsoa";
 import {Item} from '../models'
-import {getItems, createItem, IItemPayload, getItem, deleteItem, getItemsByCategory} from '../repositories/item.repository'
+import {getItems, createItem, IItemPayload, getItem, deleteItem, getItemsByCategory, updateItem} from '../repositories/item.repository'
 
 @Route("items")
 @Tags("Item")
@@ -13,6 +13,11 @@ export default class ItemController {
   @Post("/")
   public async createItem(@Body() body: IItemPayload, @Inject() buffer: Buffer, @Inject() fileExtension: string): Promise<Item> {
     return createItem(body, buffer, fileExtension)
+  }
+
+  @Patch("/")
+  public async updateItem(@Body() body: IItemPayload,  @Inject() buffer: Buffer, @Inject() fileExtension: string): Promise<Boolean> {
+    return updateItem(body, buffer, fileExtension)
   }
 
   @Get("/id/:id")

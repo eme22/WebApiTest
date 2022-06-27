@@ -24,6 +24,21 @@ router.post("/", FileMiddleware.memoryLoader.single('data'), async (req, res) =>
     res.statusCode = 404;
     return res.send({message: 'File Not Found'});
   }
+
+});
+
+router.patch("/",FileMiddleware.memoryLoader.single('data'), async (req, res) => {
+  const file = req.file
+
+  if (file){
+    const controller = new PromoController();
+    const response = await controller.updatePromo(req.body, file.buffer, file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length));
+    return res.send({updated: response});
+  }
+  else{
+    res.statusCode = 404;
+    return res.send({message: 'File Not Found'});
+  }
 });
 
 router.get("/:id", async (req, res) => {

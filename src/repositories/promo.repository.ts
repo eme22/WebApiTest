@@ -4,6 +4,7 @@ import {Promo} from '../models'
 import fs from 'fs';
 
 export interface IPromoPayload {
+  id: number;
   name: string;
   description: string;
   discount: number;
@@ -13,6 +14,27 @@ export interface IPromoPayload {
 export const getPromos  = async () :Promise<Array<Promo>> => {
   const promoRepository = getRepository(Promo);
   return promoRepository.find()
+}
+
+export const updatePromo  = async (payload: IPromoPayload, buffer: Buffer, extension: string) :Promise<Boolean> => {
+  const promoRepository = getRepository(Promo);
+
+  var promo = await promoRepository.update({id: payload.id} , {
+    name: payload.name,
+    description: payload.description,
+    discount: payload.discount
+  });
+
+  if (promo == null) return false;
+
+  const image = "/img/promo/"+payload.id+extension;
+
+  fs.writeFileSync("./public"+ image, buffer);
+
+  await promoRepository.update(payload.id, {image})
+
+  return promo.affected != 0;
+
 }
 
 export const createPromo  = async (payload: IPromoPayload, buffer: Buffer, extension: string) :Promise<Promo> => {

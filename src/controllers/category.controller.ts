@@ -1,6 +1,6 @@
 import { Get, Route, Tags,  Post, Body, Path, Delete, Inject } from "tsoa";
 import {Category} from '../models'
-import {getCategorys, createCategory, ICategoryPayload, getCategory, deleteCategory} from '../repositories/category.repository'
+import {getCategorys, createCategory, ICategoryPayload, getCategory, deleteCategory, updateCategory} from '../repositories/category.repository'
 
 @Route("categories")
 @Tags("Category")
@@ -13,6 +13,11 @@ export default class CategoryController {
   @Post("/")
   public async createCategory(@Body() body: ICategoryPayload, @Inject() buffer: Buffer,  @Inject() fileExtension: string): Promise<Category> {
     return createCategory(body, buffer, fileExtension)
+  }
+
+  @Patch("/")
+  public async updateCategory(@Body() body: ICategoryPayload,  @Inject() buffer: Buffer, @Inject() fileExtension: string): Promise<Boolean> {
+    return updateCategory(body, buffer, fileExtension)
   }
 
   @Get("/:id")
