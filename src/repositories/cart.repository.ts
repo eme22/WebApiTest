@@ -10,7 +10,17 @@ export interface ICartPayload {
   
   export const getCarts  = async () :Promise<Array<Cart>> => {
     const cartRepository = getRepository(Cart);
-    return cartRepository.find()
+    const cartItemsRepository = getRepository(CartItems);
+
+    var carts = await cartRepository.find();
+
+    for (let index = 0; index < carts.length; index++) {
+      const cart = carts[index];
+      cart.cartItems = await cartItemsRepository.find({cartId: cart.id});
+      carts[index]  = cart;
+    }
+
+    return carts
   }
   
   export const createCart  = async (payload: ICartPayload) :Promise<Cart> => {
