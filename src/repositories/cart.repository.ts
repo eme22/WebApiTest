@@ -1,5 +1,5 @@
 import {getRepository} from "typeorm";
-import {Cart, CartItems} from '../models'
+import {Cart, CartItems, Item} from '../models'
 
 
 export interface ICartPayload {
@@ -67,6 +67,8 @@ export interface ICartPayload {
   export const getCartsByUserId  = async (id: number) :Promise<Array<Cart> | null> => {
     const cartRepository = getRepository(Cart);
     const cartItemsRepository = getRepository(CartItems);
+    const itemRepository = getRepository(Item);
+
 
     const carts = await cartRepository.find({userId: id})
     if (!carts) return null
@@ -74,7 +76,18 @@ export interface ICartPayload {
     
     for (let index = 0; index < carts.length; index++) {
       const cart = carts[index];
-      cart.cartItems = await cartItemsRepository.find({cartId: cart.id});
+      const cartItems = await cartItemsRepository.find({cartId: cart.id});
+      for (let index = 0; index < cartItems.length; index++) {
+        const items = cartItems[index];
+        const item = await itemRepository.findOne({id: items.itemId})
+        if (item == null) return null;
+
+        items.item = item;
+
+        cartItems[index] = items;
+        
+      }
+
       carts[index]  = cart;
     }
 
