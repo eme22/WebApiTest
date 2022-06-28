@@ -72,7 +72,6 @@ export interface ICartPayload {
 
     const carts = await cartRepository.find({userId: id})
     if (!carts) return null
-
     
     for (let index = 0; index < carts.length; index++) {
       const cart = carts[index];
@@ -87,6 +86,8 @@ export interface ICartPayload {
         cartItems[index2] = items;
         
       }
+
+      cart.cartItems = cartItems;
 
       carts[index]  = cart;
     }
