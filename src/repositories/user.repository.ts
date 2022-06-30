@@ -54,7 +54,8 @@ export const updateUser  = async (payload: IUserPayload, buffer: Buffer | undefi
     email: payload.email,
     passwordHash: payload.passwordHash,
     phone: payload.phone,
-    address: payload.address
+    address: payload.address,
+    admin: payload.admin
   })).affected != 0;
 
 
